@@ -1,6 +1,11 @@
 services:
   ss-zapret:
-    image: vernette/ss-zapret:v72.8
+    pull_policy: missing
+    build:
+      context: .
+      tags:
+        - "local/ss-zapret:v72.8"
+    image: local/ss-zapret:v72.8
     container_name: zapret-proxy
     restart: unless-stopped
     environment:
@@ -19,6 +24,7 @@ services:
       - ./config:/opt/zapret/config
       - ./scripts/examples:/opt/zapret/init.d/custom.d.examples.linux
       - ./scripts/custom.d:/opt/zapret/init.d/sysv/custom.d
+      - ./output:/opt/zapret/out
     healthcheck:
       test: [
         "CMD-SHELL",
